@@ -6,7 +6,7 @@ port = 2000                         # Default HTTP port
 
 def get_request
   print 'What type of request would you like to send: ' \
-        "'GET' or 'PUSH'?: "
+        "'GET' or 'POST'?: "
   method = gets.chomp.upcase
   print 'Path: '
   path = gets.chomp

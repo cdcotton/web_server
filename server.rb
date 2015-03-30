@@ -12,14 +12,14 @@ loop do                        # Servers run forever
   path = header.split[1][0..-1]
 
   if File.exist?(path)
-    body = File.read(path)
     client.puts("HTTP/1.0 200 OK\r\n\r\n")
     response = ''
 
     case method
     when 'GET'
+      body = File.read(path)
       response = body
-    when 'PUSH'
+    when 'POST'
       params = JSON.parse(body)
       template = File.read('thanks.html')
       content = "<li>Name: #{params['viking']['name']}</li>" \
@@ -27,8 +27,7 @@ loop do                        # Servers run forever
       response = template.sub("<%= yield %>", content)
     end
   else
-    client.puts("HTTP/1.0 404 Not Found\r\n\r\n")
-    client.puts('You messed up.')
+    response = "HTTP/1.0 404 Not Found\r\n\r\nYou messed up."
   end
 
   client.puts(response)
